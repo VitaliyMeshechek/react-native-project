@@ -1,39 +1,63 @@
-import React from "react";
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import RegistrationScreen from "./Screens/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function App() {
+  const [appIsReady] = useFonts({
+    "Roboto-Bold": require("./assets/fonts/Roboto/Roboto-Bold.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto/Roboto-Regular.ttf"),
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  if (!appIsReady) {
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
+
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("./assets/image/mountains.png")}
-        resizeMode="cover"
-        style={styles.image}
-      >
-        <View style={styles.containerRegister}></View>
-        {/* <Text>Hello!</Text> */}
-      </ImageBackground>
+    <View style={styles.appContainer}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <ImageBackground
+          source={require("./assets/image/mountains.png")}
+          resizeMode="cover"
+          style={styles.image}
+        >
+          <LoginScreen />
+          {/* <RegistrationScreen /> */}
+          <StatusBar style="auto" />
+        </ImageBackground>
+      </TouchableWithoutFeedback>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     position: "relative",
     flex: 1,
     justifyContent: "center",
+    backgroundColor: "#FFFFFF",
   },
   image: {
     flex: 1,
-    justifyContent: "center",
-  },
-  containerRegister: {
-    position: "absolute",
-    width: 375,
-    height: 405,
-    left: 0,
-    top: 263,
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    justifyContent: "flex-end",
   },
 });
