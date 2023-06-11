@@ -11,10 +11,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "jsEngine": "hermes",
     "assetBundlePatterns": [
       "**/*"
     ],
+    "jsEngine": "hermes",
     "ios": {
       "jsEngine": "jsc",
       "supportsTablet": true
