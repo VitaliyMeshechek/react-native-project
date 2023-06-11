@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   KeyboardAvoidingView,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Text,
   Keyboard,
+  Dimensions,
 } from "react-native";
 
 const initialState = {
@@ -25,12 +26,26 @@ const LoginScreen = () => {
     setState(initialState);
   };
 
+  const [dimensions, setDimensions] = useState(Dimensions.get("window").width);
+
+  useEffect(() => {
+    const onChange = () => {
+      const width = Dimensions.get("window").width;
+      setDimensions(width);
+    };
+    Dimensions.addEventListener("change", onChange);
+    return () => {
+      Dimensions.removeEventListener("change", onChange);
+    };
+  }, []);
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
       <View
         style={{
           ...styles.loginContainer,
           paddingBottom: isShowKeyboard ? 32 : 111,
+          width: dimensions,
         }}
       >
         <Text style={styles.loginTitle}>Увійти</Text>
