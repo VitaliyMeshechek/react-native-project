@@ -12,7 +12,7 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { authSignUpUser } from "../../Redux/auth/authOperations";
 
@@ -96,7 +96,10 @@ const RegistrationScreen = ({ navigation }) => {
                     style={styles.input}
                     onFocus={() => setIsShowKeyboard(true)}
                     onChangeText={(value) =>
-                      setState((prevState) => ({ ...prevState, login: value }))
+                      setState((prevState) => ({
+                        ...prevState,
+                        login: value,
+                      }))
                     }
                     placeholder="Логін"
                     value={state.login}
@@ -105,7 +108,10 @@ const RegistrationScreen = ({ navigation }) => {
                     style={styles.input}
                     onFocus={() => setIsShowKeyboard(true)}
                     onChangeText={(value) =>
-                      setState((prevState) => ({ ...prevState, email: value }))
+                      setState((prevState) => ({
+                        ...prevState,
+                        email: value,
+                      }))
                     }
                     value={state.email}
                     placeholder="Адреса електронної пошти"

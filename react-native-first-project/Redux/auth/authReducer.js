@@ -7,16 +7,17 @@ const initialState = {
   userEmail: "",
   isLoading: false,
   error: null,
-  stateChange: null,
+  stateChange: false,
+  emailVerified: false,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // fetchingInProgress: (state) => {
-    //   return { ...state, isLoading: true };
-    // },
+    fetchingInProgress: (state) => {
+      return { ...state, isLoading: true };
+    },
     updateUserProfile: (state, { payload }) => {
       return {
         ...state,
@@ -24,6 +25,7 @@ export const authSlice = createSlice({
         userName: payload.userName,
         userAvatar: payload.userAvatar,
         userEmail: payload.userEmail,
+        emailVerified: payload.emailVerified,
         isLoading: false,
         error: null,
       };
@@ -36,5 +38,12 @@ export const authSlice = createSlice({
         error: null,
       };
     },
+    authVerifyEmail: (state, { payload }) => {
+      return {
+        ...state,
+        emailVerified: payload.emailVerified,
+      };
+    },
+    authSignOut: () => initialState,
   },
 });

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons, EvilIcons } from "@expo/vector-icons";
+import { authSignOutUser } from "../../Redux/auth/authOperations";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   TouchableOpacity,
@@ -11,22 +13,26 @@ import {
   Image,
 } from "react-native";
 
-const DefaultScreenPosts = ({ route }) => {
+const DefaultScreenPosts = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
   const [avatar, setAvatar] = useState({});
-  console.log("route.params", route.params);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (route.params) {
       setPosts((prevState) => [...prevState, route.params]);
     }
   }, [route.params]);
-  console.log("posts", posts);
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
         <Text style={styles.headerTitleText}>Публікації</Text>
-        <TouchableOpacity onPress={() => logOut}>
+        <TouchableOpacity
+          onPress={
+            (() => dispatch(authSignOutUser()))
+          }
+        >
           <MaterialIcons
             style={{ marginRight: 10 }}
             name="logout"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -18,9 +18,11 @@ import CommentsScreen from "../Screens/NestedScreen/CommentsScreen";
 import ProfileScreen from "../Screens/MainScreen/ProfileScreen";
 import MapScreen from "../Screens/NestedScreen/MapScreen";
 import Home from "../Screens/MainScreen/Home";
+import DashboardScreen from "../Screens/DashboardScreen/DashboardScreen";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
+const DashboardStack = createStackNavigator();
 
 const MainHome = () => {
   return (
@@ -81,6 +83,20 @@ const MainHome = () => {
   );
 };
 
+const DashboardMain = () => {
+  return (
+    <DashboardStack.Navigator>
+      <DashboardStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Dashboard"
+        component={DashboardScreen}
+      />
+    </DashboardStack.Navigator>
+  );
+};
+
 const AuthHome = () => {
   return (
     <AuthStack.Navigator>
@@ -94,19 +110,27 @@ const AuthHome = () => {
         name="Register"
         component={RegistrationScreen}
       />
-      <AuthStack.Screen
+      {/* <AuthStack.Screen
         options={{ headerShown: false }}
-        name="Home"
-        component={MainHome}
-      />
+        name="Dashboard"
+        component={DashboardScreen}
+      /> */}
     </AuthStack.Navigator>
   );
 };
-const useRoute = (isAuth) => {
+const useRoute = (isAuth, emailVerified) => {
+  // const [emailVerified, setEmailVerified] = useState("false");
+  console.log("isAuth", isAuth);
+  console.log("emailVerified", emailVerified);
   if (!isAuth) {
     return <AuthHome />;
   }
-  return <MainHome />;
+  // else if (!emailVerified) {
+  //   return <DashboardMain />;
+  // }
+  else if (!emailVerified) {
+    return <MainHome />;
+  }
 };
 
 const styles = StyleSheet.create({
