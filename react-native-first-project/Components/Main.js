@@ -30,6 +30,7 @@ const Main = () => {
   }, []);
 
   const routing = useRoute(stateChange, emailVerified);
+  // const verify = useRoute(emailVerified);
 
   return (
     <NavigationContainer>
@@ -119,3 +120,15 @@ export default Main;
 //       console.log("error.message", error.message);
 //     }
 //   };
+
+// createUserWithEmailAndPassword(authFirebase, email, password).then(
+//   async ({ user }) => {
+//     if (user.emailVerified === false) {
+//       await sendEmailVerification(authFirebase.currentUser).then(
+//         async () => {
+//           await authSignOutUser();
+//         }
+//       );
+//     }
+//   }
+// );

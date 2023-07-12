@@ -50,6 +50,7 @@ export const authSignUpUser =
         });
         return;
       }
+
       const user = await createUserWithEmailAndPassword(
         authFirebase,
         email,
@@ -67,20 +68,13 @@ export const authSignUpUser =
       //   },
       //   handleCodeInApp: true,
       // };
-      if (user) {
-        // setIsEmailVerified(false);
-        // User is signed in
-        // NOTE: this Activity should get onpen only when the user is not signed in, otherwise
-        // the user will receive another verification email.
-        Toast.show(`Реєстрація успішна!`, {
-          duration: 3000,
-          position: 50,
-        });
-        await isSendEmailVerification();
-      } else {
-        await authSignOutUser();
-        // User is signed out
-      }
+
+      await isSendEmailVerification();
+      Toast.show(`Реєстрація успішна!`, {
+        duration: 3000,
+        position: 50,
+      });
+
       console.log("user-authSignUpUser", user);
       // const newUser = authFirebase.currentUser;
 
@@ -96,12 +90,13 @@ export const authSignUpUser =
         userId: uid,
         avatar: photoURL,
         userEmail: email,
-      };
-      const checkVerifyEmail = {
         verify: emailVerified,
       };
+      // const checkVerifyEmail = {
+      //   verify: emailVerified,
+      // };
       dispatch(updateUserProfile(userUpdateProfile));
-      dispatch(authVerifyEmail(checkVerifyEmail));
+      // dispatch(authVerifyEmail(checkVerifyEmail));
     } catch (error) {
       console.log("error.message", error.message);
     }
@@ -123,20 +118,20 @@ export const authSignInUser =
         email,
         password
       );
-      if (email === emailVerified) {
+      if (user) {
         Toast.show(`Вхід успішний!`, {
           duration: 3000,
           position: 50,
         });
+        return;
       } else {
         alert("Please verify your email");
         return false;
       }
-
-      console.log("user-authSignInUser", user);
     } catch (error) {
       console.log("error.message", error.message);
     }
+    console.log("user-authSignInUser", user);
   };
 
 export const authSignOutUser = () => async (dispatch, getState) => {
@@ -164,7 +159,7 @@ export const authStateChangeUser = () => async (dispatch, getState) => {
           emailVerified: user.emailVerified,
         };
 
-        dispatch(authVerifyEmail({ emailVerified: true }));
+        // dispatch(authVerifyEmail({ emailVerified: true }));
         dispatch(authStateChange({ stateChange: true }));
         dispatch(updateUserProfile(userUpdateProfile));
       }
